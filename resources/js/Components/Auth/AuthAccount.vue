@@ -8,7 +8,7 @@ const authStore = useAuthStore();
 <template>
     <div class="auth-account-container" v-if="authStore.user">
         <div class="auth-account-image">
-            <img src="/assets/img/default/person.jpg" alt="Icon" />
+            <img :src="authStore.user.image" alt="Icon" />
         </div>
         <div class="auth-account-naming-wrapper">
             <div class="auth-account-naming">
@@ -77,6 +77,7 @@ const authStore = useAuthStore();
     overflow: hidden;
     display: flex;
     align-items: center;
+    margin-left: 5px;
 }
 
 .auth-account-image img {
