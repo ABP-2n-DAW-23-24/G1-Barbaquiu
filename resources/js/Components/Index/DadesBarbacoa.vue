@@ -1,4 +1,31 @@
 <script setup>
+import { ref } from 'vue';
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Navigation } from 'vue3-carousel';
+
+const images = ref([
+    {
+        src: '/assets/img/barbaquiu1.jpg',
+        alt: 'Barbaquiu 1'
+    },
+    {
+        src: '/assets/img/barbaquiu2.jpg',
+        alt: 'Barbaquiu 2'
+    }
+]);
+
+const selectedImage = ref({ src: '', alt: '' });
+
+function showModal(image) {
+    selectedImage.value = image;
+    const modal = document.getElementById('modalImages');
+    modal.showModal();
+}
+
+function closeModal() {
+    const modal = document.getElementById('modalImages');
+    modal.close();
+}
 </script>
 
 <template>
@@ -25,17 +52,21 @@
                 Una barbacoa és una trobada entre amics o família en què es cuina a l'aire lliure, generalment al voltant d'una graella o un forn de carbó. És una tradició popular en moltes cultures, on es preparen diverses menes de carn, verdures i altres aliments que es cuinen lentament sobre les flames, proporcionant un sabor distintiu i aromàtic. És una ocasió per gaudir del bon temps, la companyia i la gastronomia alhora.
             </p>
 
-            <div class="images flex pt-3 gap-2">
-                <div class="w-full max-w-1/2">
-                    <img src="/assets/img/barbaquiu1.jpg" alt="Barbaquiu 1" class="object-cover w-full h-32">
-                </div>
-                <div class="w-full max-w-1/2">
-                    <img src="/assets/img/barbaquiu2.jpg" alt="Barbaquiu 2" class="object-cover w-full h-32">
+            <div class="images flex pt-3">
+                <div class="w-full">
+                    <div class="flex gap-1">
+                        <div v-for="(image, index) in images" :key="index" class="w-full md:w-1/2">
+                            <img 
+                                :src="image.src" 
+                                :alt="image.alt" 
+                                class="object-cover w-full h-32 cursor-pointer"
+                                @click="showModal(image)"
+                            >
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-
 
         <div class="linia" />
 
@@ -70,12 +101,34 @@
                         class="mr-2 w-full h-[40px] resize-none"
                     />
 
-                    <button class="">
+                    <button class="send">
                         Enviar
                     </button>
                 </div>
             </div>
         </div>
+
+        <!-- CAROUSEL IMAGES -->
+        <dialog id="modalImages" class="modal">
+            <div class="modal-box w-11/12 max-w-5xl overflow-hidden">        
+                <button 
+                    class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-50 text-white border-inherit"
+                    @click="closeModal"
+                > 
+                    ✕
+                </button>
+
+                <carousel :items-to-show="1">
+                    <slide v-for="slide in images" :key="slide">
+                        <img :src="slide.src" class="object-cover w-full" :alt="selectedImage.alt" />
+                    </slide>
+
+                    <template #addons>
+                        <navigation />
+                    </template>
+                </carousel>
+            </div>
+        </dialog>
     </div>
 </template>
 
@@ -99,9 +152,17 @@
 }
 
 textarea,
-button {
+.send {
     background-color: #DEDEDE;
     border-radius: 5px;
     padding: 0.5rem;
+}
+
+.modal-box{
+    padding: 0;
+}
+
+.carousel * {
+    color: white !important;
 }
 </style>

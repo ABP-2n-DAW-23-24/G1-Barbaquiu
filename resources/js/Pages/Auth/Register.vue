@@ -168,6 +168,7 @@ const googleLogin = () => {
     border: none;
     width: 100%;
     height: 100%;
+    padding-left: 10px;
 }
 
 .input:focus {
