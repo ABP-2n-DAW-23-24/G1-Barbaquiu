@@ -1,0 +1,54 @@
+name: laravel-build
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: 8.3.
+          extensions: mbstring, ctype, fileinfo, openssl, PDO, bcmath, json, tokenizer, xml
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --no-interaction --prefer-dist    
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Clean up
+        run: |
+          rm -rf node_modules
+          rm -rf storage
+
+      - name: Archive application
+        run: tar -czf app.tgz ./*
+
+      - name: SSH SCP and deployment
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        env:
+          WELCOME: "ssh scp ssh pipelines"
+          LASTSSH: "Doing something after copying"
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          user: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          connect_timeout: 10s
+          scp: |
+            './app.tgz' => ${{ secrets.SSH_DIR }}
+          last_ssh: |
+            cd ${{ secrets.SSH_DIR }} 
+            tar -xzf app.tgz
+            sh ./deploy/deploy.sh
