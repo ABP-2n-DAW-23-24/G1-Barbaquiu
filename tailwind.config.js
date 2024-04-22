@@ -21,5 +21,4 @@ export default {
 
     plugins: [forms],
     plugins: [require("daisyui")],
-    plugins: [require("flowbite")],
 };

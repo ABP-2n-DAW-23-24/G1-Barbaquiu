@@ -125,10 +125,10 @@ const toggleDropdown = () => {
 
 .input-container input {
     width: 100%;
-    font-size: 2rem;
+    font-size: 26px;
     border: none;
     border-bottom: 2px solid transparent;
-    /* Línea inicialmente transparente */
+    
     outline: none;
 }
 

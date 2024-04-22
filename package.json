@@ -31,9 +31,8 @@
         "@tiptap/starter-kit": "^2.3.0",
         "@tiptap/vue-3": "^2.3.0",
         "@vueup/vue-quill": "^1.2.0",
-        "pinia": "^2.1.7",
         "flowbite": "^2.3.0",
+        "pinia": "^2.1.7",
         "vue3-emoji-picker": "^1.1.8"
-
     }
 }
