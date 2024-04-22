@@ -43,11 +43,10 @@ class FriendsController extends Controller
      */
     public function show(string $id)
     {
-
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Showaws the form for editing the specified resource.
      */
     public function edit(string $id)
     {

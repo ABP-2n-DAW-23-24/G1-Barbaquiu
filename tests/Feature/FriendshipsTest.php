@@ -6,6 +6,7 @@ describe('Friend requests', function() {
     test('User can send a friend request', function() {
         $user_1 = User::factory()->create();
         $user_2 = User::factory()->create();
+
         $user_1->sendFriendRequest($user_2);
 
         $users = User::all();
