@@ -13,6 +13,7 @@ function DeleteFriend(friendId) {
     })
     .then(response => {
         console.log("Amigo eliminado exitosamente.");
+        window.location.reload();
     })
     .catch(error => {
         console.error('Error al eliminar al amigo:', error);

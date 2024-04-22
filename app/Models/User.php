@@ -142,4 +142,5 @@ class User extends Authenticatable
     {
         $barbecue->recieveInvitationAcceptance($this);
     }
+
 }
