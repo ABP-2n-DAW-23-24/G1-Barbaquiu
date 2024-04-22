@@ -1,13 +1,23 @@
 <script setup>
 import MainLayout from "@/Layouts/MainLayout.vue";
-import 'flowbite';
 const props = defineProps({
   friends: {
-    type: Array,
+    type: Object,
     required: true,
   },
 });
 
+function DeleteFriend(friendId) {
+    axios.post(route('friends.destroy', { id: friendId }), {
+        _method: 'DELETE'
+    })
+    .then(response => {
+        console.log("Amigo eliminado exitosamente.");
+    })
+    .catch(error => {
+        console.error('Error al eliminar al amigo:', error);
+    });
+}
 </script>
 <template>
     <MainLayout title="Inici">
@@ -21,7 +31,7 @@ const props = defineProps({
                         <img class="w-32 h-32 mb-3 rounded-full shadow-lg" src="assets/img/user.png" alt="User Image" />
                         <h5 class="mb-2 text-sm font-medium text-gray-900 dark:text-white">{{friend.name}}</h5>
                         <div class="flex md:mt-2">
-                            <button
+                            <button @click="DeleteFriend(friend.id)"
                                 class="inline-flex items-center px-4 py-1 text-sm font-medium text-center text-white bg-red-700 rounded-2xl hover:bg-red-800 focus:ring-2 focus:outline-none focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Eliminar
                                 amic</button>
                         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Models\Friendship;
 
 class FriendsController extends Controller
 {
@@ -64,8 +65,18 @@ class FriendsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
+public function destroy($friend_id)
+{
+    $user = auth()->user();
+    $friendship = Friendship::where('friend_id', $user->id)
+                             ->where('user_id', $friend_id)
+                             ->first();
+
+    if ($friendship) {
+        $friendship->delete();
+        return redirect()->route('friends.index')->with('success', 'Amistad eliminada exitosamente');
+    } else {
+        return redirect()->route('friends.index')->with('error', 'No se encontró la amistad para eliminar');
     }
+}
 }
