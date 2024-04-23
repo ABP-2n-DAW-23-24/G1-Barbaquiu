@@ -11,5 +11,11 @@ class TestController extends Controller
     {
         return Inertia::render('Test');
     }
+    public function indexProfile()
+    {
+        return Inertia::render('UserProfile/Index');
+    }
+
+
     
 }

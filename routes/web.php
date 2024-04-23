@@ -17,6 +17,7 @@ use App\Models\User;
 Route::get('/', [IndexController::class, 'show'])->name('index');
 
 Route::get('/test', [TestController::class, 'index'])->name('test');
+Route::get('/test/profile', [TestController::class, 'indexProfile'])->name('test.profile');
 
 Route::get('friends', [FriendsController::class, 'index'])->name('friends.index');
 Route::delete('friends/{id}', [FriendsController::class, 'destroy'])->name('friends.destroy');
