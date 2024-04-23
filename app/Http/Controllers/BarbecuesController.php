@@ -28,7 +28,10 @@ class BarbecuesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = auth()->user();
+        $barbecue = $user->barbecues()->create($request->all());
+
+        return response()->json($barbecue);
     }
 
     /**

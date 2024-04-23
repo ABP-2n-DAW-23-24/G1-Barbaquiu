@@ -1,14 +1,28 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { createApp } from 'vue'
 import { QuillEditor } from '@vueup/vue-quill'
+import { useAuthStore } from "@/stores/auth";
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import { useForm } from '@inertiajs/vue3';
+import axios from 'axios';
+
+const authStore = useAuthStore();
 
 
 const app = createApp()
 app.component('QuillEditor', QuillEditor)
 
 const isOpen = ref(false);
+const quillContent = ref(null);
+
+const barbecueForm = useForm({
+    title: '',
+    content: '',
+    latitude: '123',
+    longitude: '123',
+    address: '123',
+});
 
 const toggleDropdown = () => {
     if (!isOpen.value) {
@@ -16,39 +30,47 @@ const toggleDropdown = () => {
     }
 };
 
+const submitBarbecueForm = () => {
+    barbecueForm.content = quillContent.value.getHTML();
+
+    axios.post("/barbecues", barbecueForm)
+        .then(() => {
+            barbecueForm.reset();
+            quillContent.value.setHTML('');
+            isOpen.value = false;
+        });
+};
+
 </script>
 
 <template>
-    <div class="dropdown" :class="{ open: isOpen }" @click="toggleDropdown">
-
+    <form @submit.prevent="submitBarbecueForm" class="dropdown" :class="{ open: isOpen }" @click="toggleDropdown">
         <div class="flex">
-            <img src="/assets/img/profile.jpg" alt="Foto de perfil" class="mr-2 h-16 w-16 rounded-full">
-            <form action="" class="w-full mt-auto mb-auto ">
+            <img :src="authStore.user.image" alt="Foto de perfil" class="mr-2 h-16 w-16 rounded-full">
+            <div class="w-full mt-auto mb-auto ">
                 <div class="input-container">
-                    <input type="text" placeholder="Crear nova barbacoa...">
+                    <input type="text" placeholder="Crear nova barbacoa..." v-model="barbecueForm.title">
                 </div>
-            </form>
+            </div>
             <img src="/assets/svg/edit.svg" alt="Imatge de editar" class="">
         </div>
 
         <div class="content " :style="{ height: isOpen ? 'auto' : '0' }" >
 
-
             <section class="mt-3 ">
 
-                <QuillEditor theme="snow" class="rounded-b-lg min-h-24" />
+                <QuillEditor theme="snow" class="rounded-b-lg min-h-24" ref="quillContent"></QuillEditor>
 
             </section>
 
-            
             <div class="flex">
                 <button class=""><img src="/assets/svg/addphoto.svg" alt="Imatge de editar" class=""></button>
                 <button class=""><img src="/assets/svg/addlocation.svg" alt="Imatge de editar" class=""></button>
 
-                <button class="boton-elegante ml-auto mt-2">Publicar</button>
+                <button type="submit" value="Publicar" class="boton-elegante ml-auto mt-2">Publicar</button>
             </div>
         </div>
-    </div>
+    </form>
 </template>
 
 <style scoped>
@@ -69,7 +91,7 @@ const toggleDropdown = () => {
 }
 
 .dropdown.open .content {
-    max-height: 1000px;
+    max-height: none;
    
 }
 

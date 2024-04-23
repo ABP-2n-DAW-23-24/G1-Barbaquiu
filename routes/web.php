@@ -52,6 +52,8 @@ Route::get('/auth/google/callback', function () {
 
 Route::get('/api/user', [UserController::class, 'apiShowLogged']);
 
+Route::resource('barbecues', BarbecuesController::class);
+
 require __DIR__.'/auth.php';
 
 
