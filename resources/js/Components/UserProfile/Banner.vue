@@ -1,10 +1,13 @@
 <script setup>
+import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore();
+
 
 </script>
 
 <template>
 
-    <div>
+    <div v-if="authStore.user">
         <div class="w-full bg-cover bg-no-repeat bg-center rounded-t-[20px]" style="height: 150px; background: rgb(131,58,180);
         background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);">
         </div>
@@ -17,12 +20,12 @@
                             <div style="height:9rem; width:9rem;" class="md rounded-full relative avatar">
                                 <img style="height:9rem; width:9rem;"
                                     class="md rounded-full relative border-4 border-white bg-white"
-                                    src="/assets/svg/avatar.svg" alt="avatar">
+                                    :src="authStore.user.image" alt="avatar">
                                 <div class="absolute"></div>
                             </div>
                         </div>
                         <div class="flex flex-col text-left">
-                            <h1 class="text-2xl font-bold text-gray-800">Marcos Boiga</h1>
+                            <h1 class="text-2xl font-bold text-gray-800">{{ authStore.user.name }} {{ authStore.user.surnames }}</h1>
                             <div class="flex items-center content-center">
 
                                 <img src="/assets/svg/marcador.svg" alt="Marcador" class="w-3 mr-1">
