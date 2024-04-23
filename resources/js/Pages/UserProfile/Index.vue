@@ -2,6 +2,10 @@
     import ProfileLayout from "@/Layouts/ProfileLayout.vue";
     import Banner from "@/Components/UserProfile/Banner.vue";
     import BarbaqUserProfile from "@/Components/UserProfile/BarbaqUserProfile.vue";
+    import { useAuthStore } from "@/stores/auth";
+
+    const authStore = useAuthStore();
+    authStore.updateUserData();
 </script>
 
 <template>

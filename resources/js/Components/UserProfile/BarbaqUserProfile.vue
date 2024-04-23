@@ -1,6 +1,9 @@
 <script setup>
 import CreateBarbaqInput from "@/Components/CreateBarbaqInput/CreateBarbaqInput.vue";
 import DadesBarbacoa from "../Index/DadesBarbacoa.vue";
+
+import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore();
 </script>
 
 <template>
@@ -19,7 +22,7 @@ import DadesBarbacoa from "../Index/DadesBarbacoa.vue";
 <style scoped>
 .barbaq-user-template {
     display: grid;
-    grid-template-columns: auto 350px;
+    grid-template-columns: auto 320px;
     gap: 20px;
 }
 

@@ -44,7 +44,7 @@ const submitBarbecueForm = () => {
 </script>
 
 <template>
-    <form @submit.prevent="submitBarbecueForm" class="dropdown" :class="{ open: isOpen }" @click="toggleDropdown">
+    <form @submit.prevent="submitBarbecueForm" class="dropdown" :class="{ open: isOpen }" @click="toggleDropdown" v-if="authStore.user">
         <div class="flex">
             <img :src="authStore.user.image" alt="Foto de perfil" class="mr-2 h-16 w-16 rounded-full">
             <div class="w-full mt-auto mb-auto ">
