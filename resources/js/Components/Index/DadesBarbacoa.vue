@@ -1,8 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import 'vue3-carousel/dist/carousel.css';
-import { Carousel, Slide, Navigation } from 'vue3-carousel';
 
+const currentSlide = ref(0);
 const images = ref([
     {
         src: '/assets/img/barbaquiu1.jpg',
@@ -11,8 +11,22 @@ const images = ref([
     {
         src: '/assets/img/barbaquiu2.jpg',
         alt: 'Barbaquiu 2'
+    },
+    {
+        src: '/assets/img/barbaquiu3.jpg',
+        alt: 'Barbaquiu 3'
     }
 ]);
+
+const navigate = (index) => {
+    if (index < 0) {
+        currentSlide.value = images.value.length - 1;
+    } else if (index >= images.value.length) {
+        currentSlide.value = 0;
+    } else {
+        currentSlide.value = index;
+    }
+};
 
 const selectedImage = ref({ src: '', alt: '' });
 
@@ -25,6 +39,62 @@ function showModal(image) {
 function closeModal() {
     const modal = document.getElementById('modalImages');
     modal.close();
+}
+
+function showMoreComments() {
+    var paragraph = document.querySelector('.more-coments');
+        
+    if (paragraph.textContent.trim() === 'Mostrar els comentaris') {
+        paragraph.textContent = 'Mostrar menys comentaris';
+
+        var div = document.createElement('div');
+
+        div.classList.add('more-comments');
+
+        div.style.height = '150px';
+        div.style.overflow = 'auto';
+
+        div.innerHTML = `
+            <div class="comentari pb-4">
+                <div class="flex items-center justify-between pb-2">
+                    <div class="left flex items-center">
+                        <img src="/assets/svg/user.svg" alt="User" class="w-8 mr-2">
+                        <h4 class="font-bold">Joan Paneque</h4>
+                    </div>
+
+                    <p class="text-gray-400 text-sm">15 de abril a les 18:39</p>
+                </div>
+
+                <p class="text-sm">
+                    Jo també m'apunto, tinc moltes ganes de veure-us a tots! 🥳
+                </p>
+            </div>
+
+            <div class="comentari pb-4">
+                <div class="flex items-center justify-between pt-5 pb-2">
+                    <div class="left flex items-center">
+                        <img src="/assets/svg/user.svg" alt="User" class="w-8 mr-2">
+                        <h4 class="font-bold">Joan Paneque</h4>
+                    </div>
+
+                    <p class="text-gray-400 text-sm">15 de abril a les 18:39</p>
+                </div>
+
+                <p class="text-sm">
+                    Jo també m'apunto, tinc moltes ganes de veure-us a tots! 🥳
+                </p>
+            </div>
+        `;
+
+        paragraph.insertAdjacentElement('beforebegin', div);
+    } else {
+        paragraph.textContent = 'Mostrar els comentaris';
+
+        var addedElement = document.querySelector('.more-comments');
+        if (addedElement) {
+            addedElement.remove();
+        }
+    }
 }
 </script>
 
@@ -42,7 +112,7 @@ function closeModal() {
                 </div>
             </div>
 
-            <p class="right text-sm">12 de abril a les 21:25</p>
+            <p class="text-gray-400 text-sm">12 de abril a les 21:25</p>
         </div> 
 
         <div class="content pb-3">
@@ -71,24 +141,13 @@ function closeModal() {
         <div class="linia" />
 
         <div class="bottom">
-            <div class="pb-2">
-                <div class="flex items-center justify-between pt-5 pb-2">
-                    <div class="left flex items-center">
-                        <img src="/assets/svg/user.svg" alt="User" class="w-8 mr-2">
-                        <h4 class="font-bold">Roman Mysyura</h4>
-                    </div>
-
-                    <p class="right text-sm">13 de abril a les 15:07</p>
-                </div>
-
-                <p class="text-sm">
-                    Jo m'apunto 100%, tinc moltes ganes ya, per fi s'ha acabat el ramadan! 🤣
+            <div class="comentaris pt-2">
+                <p 
+                    class="more-coments font-bold text-xs cursor-pointer w-fit pt-2"
+                    @click="showMoreComments"
+                >
+                    Mostrar els comentaris
                 </p>
-            </div>
-
-
-            <div class="comentaris">
-                <p class="font-bold text-xs">Mostrar més comentaris</p>
 
                 <div class="flex items-center py-2">
                     <img src="/assets/svg/user.svg" alt="User" class="w-8 mr-2">
@@ -110,23 +169,22 @@ function closeModal() {
 
         <!-- CAROUSEL IMAGES -->
         <dialog id="modalImages" class="modal">
-            <div class="modal-box w-11/12 max-w-5xl overflow-hidden">        
-                <button 
-                    class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-50 text-white border-inherit"
+            <div class="carousel w-5/6 h-5/6">
+                 <button 
+                    class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 z-50 border-inherit bg-white hover:text-white"
                     @click="closeModal"
                 > 
                     ✕
                 </button>
-
-                <carousel :items-to-show="1">
-                    <slide v-for="slide in images" :key="slide">
-                        <img :src="slide.src" class="object-cover w-full" :alt="selectedImage.alt" />
-                    </slide>
-
-                    <template #addons>
-                        <navigation />
-                    </template>
-                </carousel>
+                <template v-for="(image, index) in images" :key="index">
+                    <div :id="'slide' + (index + 1)" class="carousel-item relative w-full" v-show="index === currentSlide">
+                        <img :src="image.src" :alt="image.alt" class="w-full object-contain" />
+                        <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                            <a @click.prevent="navigate(index - 1)" :href="'#slide' + (index === 0 ? images.length : index)" class="btn btn-circle">❮</a> 
+                            <a @click.prevent="navigate(index + 1)" :href="'#slide' + (index === images.length - 1 ? 1 : index + 2)" class="btn btn-circle">❯</a>
+                        </div>
+                    </div>
+                </template>
             </div>
         </dialog>
     </div>
@@ -136,10 +194,6 @@ function closeModal() {
 .container {
     background-color: #fff;
     border-radius: 20px;
-}
-
-.right {
-    color: #A6A6A6;
 }
 
 .images img {
@@ -160,9 +214,5 @@ textarea,
 
 .modal-box{
     padding: 0;
-}
-
-.carousel * {
-    color: white !important;
 }
 </style>
