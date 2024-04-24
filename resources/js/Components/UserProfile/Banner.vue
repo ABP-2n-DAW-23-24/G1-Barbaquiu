@@ -1,5 +1,8 @@
 <script setup>
 import { useAuthStore } from "@/stores/auth";
+import { Head, Link, useForm } from '@inertiajs/vue3';
+
+
 const authStore = useAuthStore();
 
 
@@ -25,13 +28,22 @@ const authStore = useAuthStore();
                             </div>
                         </div>
                         <div class="flex flex-col text-left">
-                            <h1 class="text-2xl font-bold text-gray-800">{{ authStore.user.name }} {{ authStore.user.surnames }}</h1>
+                            <h1 class="text-2xl font-bold text-gray-800">{{ authStore.user.name }} {{
+                                authStore.user.surnames }}</h1>
                             <div class="flex items-center content-center">
 
                                 <img src="/assets/svg/marcador.svg" alt="Marcador" class="w-3 mr-1">
                                 <p class="text-sm ">L'Estartit</p>
 
                             </div>
+                        </div>
+
+                        <div class="flex flex-col text-right ml-auto">
+                            <button>
+                                <Link :href="route('profile.edit', { profile: authStore.user.id })">
+                                <img src="/assets/svg/editpen.svg" alt="Editar" class="w-5">
+                                </Link>
+                            </button>
                         </div>
                     </div>
                 </div>
