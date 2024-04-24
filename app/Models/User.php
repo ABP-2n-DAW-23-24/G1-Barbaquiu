@@ -13,6 +13,7 @@ use App\Models\Barbecue;
 use App\Models\BarbecueFriendship;
 use App\Models\ChatMessage;
 use App\Models\Notification;
+use App\Models\Friendship;
 
 class User extends Authenticatable
 {
@@ -142,6 +143,13 @@ class User extends Authenticatable
     public function acceptBarbecueInvitation(Barbecue $barbecue)
     {
         $barbecue->recieveInvitationAcceptance($this);
+    }
+
+
+    public function removeFriend(User $user)
+    {
+        $this->acceptedSentFriendRequests()->detach($user->id);
+        $this->acceptedRecievedFriendRequests()->detach($user->id);
     }
 
 }
