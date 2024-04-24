@@ -14,6 +14,7 @@ function DeleteFriend(friendId) {
         window.location.reload();
     })
 }
+
 </script>
 <template>
     <MainLayout title="Inici">
