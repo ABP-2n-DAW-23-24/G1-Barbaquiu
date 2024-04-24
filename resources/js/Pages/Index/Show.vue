@@ -27,8 +27,8 @@ authStore.updateUserData();
 
 
 
-            <DivBarbacoa class="" />
-
+            <DivBarbacoa class="mb-5" />
+            <DivBarbacoa class="mb-5" />
 
 
         </template>

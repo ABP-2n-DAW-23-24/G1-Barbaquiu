@@ -44,9 +44,10 @@ const submitBarbecueForm = () => {
 </script>
 
 <template>
-    <form @submit.prevent="submitBarbecueForm" class="dropdown" :class="{ open: isOpen }" @click="toggleDropdown" v-if="authStore.user">
+    <form @submit.prevent="submitBarbecueForm" class="dropdown" :class="{ open: isOpen }" @click="toggleDropdown"
+        v-if="authStore.user">
         <div class="flex">
-            <img :src="authStore.user.image" alt="Foto de perfil" class="mr-2 h-16 w-16 rounded-full">
+            <img :src="authStore.user.image" alt="Foto de perfil" class="mr-2 h-16 w-16 rounded-full imgprofile">
             <div class="w-full mt-auto mb-auto ">
                 <div class="input-container">
                     <input type="text" placeholder="Crear nova barbacoa..." v-model="barbecueForm.title">
@@ -55,7 +56,7 @@ const submitBarbecueForm = () => {
             <img src="/assets/svg/edit.svg" alt="Imatge de editar" class="">
         </div>
 
-        <div class="content " :style="{ height: isOpen ? 'auto' : '0' }" >
+        <div class="content " :style="{ height: isOpen ? 'auto' : '0' }">
 
             <section class="mt-3 ">
 
@@ -92,7 +93,7 @@ const submitBarbecueForm = () => {
 
 .dropdown.open .content {
     max-height: none;
-   
+
 }
 
 ::placeholder {
@@ -150,12 +151,16 @@ const submitBarbecueForm = () => {
     font-size: 26px;
     border: none;
     border-bottom: 2px solid transparent;
-    
+
     outline: none;
 }
 
 .input-container input:focus {
     border-bottom-color: gray;
     /* Color de la línea cuando el input está enfocado */
+}
+
+.imgprofile {
+    object-fit: cover;
 }
 </style>

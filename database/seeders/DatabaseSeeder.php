@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Roman',
             'surnames' => 'Mysyura',
             'email' => 'rmysyura@cendrassos.net',
-            'password' => bcrypt('123456')
+            'password' => bcrypt('123456'),
+            'image' => '/assets/img/roman.jpg'
         ]);
 
         $user_emma = User::create([

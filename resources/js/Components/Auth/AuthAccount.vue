@@ -23,10 +23,22 @@ const authStore = useAuthStore();
         </div>
     </div>
     <div class="no-auth-account-container flex gap-2" v-else>
-        <Link href="/register" class="btnregister">Registrar-me</Link>
-        
-        <Link href="/login" class="btnlogin">Iniciar sessió</Link>
-        
+        <div class="flex items-center justify-center dark:bg-gray-800 ">
+            <Link href="/register"
+                class="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150 bg-gray-50">
+
+            <span class="font-bold">Registrar-me</span>
+            </Link>
+        </div>
+        <div class="flex items-center justify-center dark:bg-gray-800">
+            <Link href="/login"
+                class="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150 bg-gray-50">
+
+            <span class="font-bold">Iniciar sessió</span>
+            </Link>
+        </div>
+
+
     </div>
 
 </template>
@@ -35,12 +47,13 @@ const authStore = useAuthStore();
 .btnregister:hover {
     background-color: rgb(224, 224, 224);
 }
+
 .btnlogin:hover {
     background-color: rgb(224, 224, 224);
 }
 
 .btnregister {
-    
+
     color: rgb(0, 0, 0);
     font-weight: bold;
     border: 0.5px solid rgb(212, 212, 212);
@@ -48,9 +61,10 @@ const authStore = useAuthStore();
     border-radius: 7px;
     background-color: rgb(236, 236, 236);
 }
-.btnlogin{
+
+.btnlogin {
     color: rgb(0, 0, 0);
-   
+
     border: 0.5px solid rgb(212, 212, 212);
     padding: 5px 10px;
     border-radius: 7px;
