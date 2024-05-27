@@ -345,7 +345,6 @@ const minusProduct = (product) => {
             <PhotoAlbum />
         </div>
 
-
         <div class="maps" :class="{
             'selected': highlightedArea === 'maps',
             'notSelected': highlightedArea !== 'maps' && highlightedArea !== null

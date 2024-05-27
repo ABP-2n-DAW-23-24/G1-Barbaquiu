@@ -164,7 +164,7 @@ class BarbecuesController extends Controller
      */
     public function edit(Request $request, string $id)
     {
-        $barbecue = Barbecue::findOrFail($id);
+        $barbecue = Barbecue::where('id', $id)->with('images')->first();
         $user = auth()->user();
         if ($barbecue->user_id !== $user->id) {
             return redirect()->route('index')->withErrors(['error' => 'No tienes permiso para editar esta barbacoa.']);
@@ -210,7 +210,6 @@ class BarbecuesController extends Controller
         $barbecue = Barbecue::findOrFail($id);
         $barbecue->update($request->all());
     }
-    
 
     /**
      * Remove the specified resource from storage.

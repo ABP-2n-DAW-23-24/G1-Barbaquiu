@@ -50,7 +50,6 @@ class ImagesController extends Controller
         return response()->json(['message' => 'Imatges pujades amb èxit'], 200);
     }
 
-
     /**
      * Display the specified resource.
      */
@@ -78,8 +77,23 @@ class ImagesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($barbecueId, $imageId)
     {
-        //
+        $image = Image::where('id', $imageId)->where('barbecue_id', $barbecueId)->first();
+
+        if (!$image) {
+            return response()->json(['message' => 'Imatge no trobada'], 404);
+        }
+
+        $imagePath = 'public/assets/img/barbecues/' . $barbecueId . '/' . basename($image->path);
+        if (Storage::exists($imagePath)) {
+            Storage::delete($imagePath);
+        } else {
+            return response()->json(['message' => 'Fitxer no trobat a l\'emmagatzematge'], 404);
+        }
+
+        $image->delete();
+
+        return response()->json(['message' => 'Imatge eliminada amb èxit'], 200);
     }
 }

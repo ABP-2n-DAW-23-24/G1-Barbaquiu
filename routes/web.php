@@ -40,9 +40,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('friends', [FriendsController::class, 'index'])->name('friends.index');
 
-    Route::get('/auth/google', [GoogleController::class, 'index']);
-    Route::get('/auth/google/callback', [GoogleController::class, 'store']);
-
     Route::delete('/friends/{id}', [FriendsController::class, 'destroy'])->name('friends.destroy');
 
     Route::post('/sendfriendrequest/{id}', [FriendsController::class, 'store'])->name('sendfriendrequest');
@@ -72,5 +69,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('comments', CommentsController::class);
     Route::post('/review', [BarbecuesController::class, 'review'])->name('review');
 });
+
+Route::get('/auth/google', [GoogleController::class, 'index']);
+Route::get('/auth/google/callback', [GoogleController::class, 'store']);
 
 require __DIR__ . '/auth.php';

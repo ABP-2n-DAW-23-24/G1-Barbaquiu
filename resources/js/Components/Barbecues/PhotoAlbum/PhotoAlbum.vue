@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useBarbecueStore } from "@/stores/barbecue";
+import Gallery from "@/Components/Galleries/Gallery.vue";
+import axios from 'axios';
 
 const barbecueStore = useBarbecueStore();
 const barbecue = barbecueStore.barbecue;
@@ -12,9 +14,6 @@ const openimgpath = ref('');
 const openImageModal = (image) => {
     selectedImage.value = image;
     openedImage.value = true;
-    console.log("Opened image modal");
-    console.log(selectedImage.value.id);
-    console.log(selectedImage.value.path);
     openimgpath.value = selectedImage.value.path;
 
 };
@@ -22,13 +21,22 @@ const openImageModal = (image) => {
 const closeImageModal = () => {
     openedImage.value = false;
     selectedImage.value = null;
-    console.log("Close image modal");
-
 };
+
+const deleteImage = async (imageId) => {
+    try {
+        await axios.delete(`/barbecues/${barbecue.id}/images/${imageId}`);
+
+        barbecue.images = barbecue.images.filter(image => image.id !== imageId);
+    } catch (error) {
+        console.error('Error eliminant la imatge:', error);
+    }
+};
+
 </script>
 
 <template>
-    <div class="flex justify-center items-center ">
+    <div class="flex justify-center items-center cursor-default">
         <svg width="50px" height="50px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg"
             stroke="#000000" stroke-width="0.00024000000000000003">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -54,10 +62,20 @@ const closeImageModal = () => {
                 }"
                 v-if="barbecue.images.length > 0">
                 <div v-for="image in barbecue.images" :key="image.id" class="break-inside-avoid mb-2 h-full w-full">
-                    <img :src="image.path" class="h-full max-w-full rounded-lg object-cover fit-content"
-                        @click="openImageModal(image)" alt="">
-                </div>
+                    <img 
+                        :src="image.path" 
+                        class="h-full max-w-full rounded-lg object-cover fit-content"
+                        @click="openImageModal(image)" 
+                        alt=""
+                    >
 
+                    <img 
+                        src="/assets/svg/deletebbq.svg" 
+                        class="absolute top-2 right-2 w-5 h-5 cursor-pointer"
+                        title="Suprimir la imatge"
+                        @click="() => deleteImage(image.id)" alt="Eliminar Imatge"
+                    >
+                </div>
 
             </div>
             <div v-if="openedImage" class="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
@@ -66,8 +84,6 @@ const closeImageModal = () => {
                     <img :src="openimgpath" alt="">
                 </div>
             </div>
-
-
         </div>
 
         <form method="dialog" class="modal-backdrop">
@@ -79,17 +95,11 @@ const closeImageModal = () => {
 </template>
 
 <style>
-.modal {}
-
-.modal-box {
+.modal-box1 {
     width: 1000px !important;
-    /* background-color: transparent !important;
-    box-shadow: none !important; */
 }
 
 .imgsection {
     height: 350px;
-    /* background-color: transparent !important; */
-
 }
 </style>
